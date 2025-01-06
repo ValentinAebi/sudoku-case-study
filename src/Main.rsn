@@ -1,0 +1,16 @@
+
+package Main {
+
+    main fn solver_main(arr String){
+        val frameR = newregion;
+        val valuesR = newregion;
+        val rawData: arr^# arr Char;
+        enclosed {fs} {
+            rawData = IntTableReader.readTable("./grids/grid1.txt");
+            // TODO copy grid
+        };
+        val grid = GridMaker.mkGrid(frameR, valuesR, rawData);
+        print(grid.toString());
+    }
+
+}

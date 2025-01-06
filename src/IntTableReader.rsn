@@ -1,0 +1,62 @@
+#nocap;
+
+package IntTableReader {
+
+    fn readTable(path: String) -> arr arr Char {
+        val s = readFile(path);
+        val linesCnt = countLines(s);
+        val linesLength = findLinesLength(s);
+        val table = arr arr Char[linesCnt];
+        for var i = 0; i < #table; i += 1 {
+            table[i] = arr Char[linesLength];
+        };
+        for var i = 0; i < #s; i += 1 {
+            table[i / linesLength][i % linesLength] = s[i];
+        };
+        return table;
+    }
+
+    fn countLines(s: String) -> Int {
+        var cnt = 1;
+        for var i = 0; i < #s; i += 1 {
+            if s[i] == '\n' {
+                cnt += 1;
+            }
+        };
+        return cnt;
+    }
+
+    fn findLinesLength(s: String) -> Int {
+        var length = -1;
+        var currCnt = 0;
+        for var i = 0; i < #s; i += 1 {
+            if s[i] == '\n' {
+                if length < 0 {
+                    length = currCnt;
+                } else if currCnt != length {
+                    panic "grid formatting error: not all lines have the same length"
+                };
+                currCnt = 0;
+            } else {
+                currCnt += 1;
+            }
+        };
+        return length;
+    }
+
+    fn readFile(path: String) -> String {
+        val fh = fs.openR(path);
+        var result = "";
+        var stop = false;
+        while !stop {
+            val c = fs.read(fh);
+            stop = c != -1;
+            if !stop {
+                result += charToString(c as Char);
+            }
+        };
+        fs.close(fh);
+        return result;
+    }
+
+}

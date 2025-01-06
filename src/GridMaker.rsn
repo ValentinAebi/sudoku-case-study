@@ -1,0 +1,17 @@
+
+package GridMaker {
+
+    fn mkGrid(frameR: Region^, valuesR: Region^, rawValues: arr arr Char) -> Grid^{frameR, valuesR} {
+        val cells = arr@frameR arr^{frameR} Cell^{valuesR}[#rawValues];
+        for var r = 0; r < #rawValues; r += 1 {
+            val rawRow = rawValues[r];
+            cells[r] = arr@frameR Cell^{valuesR}[#rawRow];
+            for var c = 0; c < #rawRow; c += 1 {
+                val initVal = CharsConversion.parse(rawRow[c]);
+                cells[r][c] = new@valuesR Cell(initVal, new Nil());
+            }
+        };
+        return new Grid(frameR, valuesR, cells);
+    }
+
+}

@@ -1,0 +1,26 @@
+
+package CharsConversion {
+	
+    fn reprOf(i: Int) -> Char {
+        return
+        when i == 0 then ' '
+        else when 0 < i && i < 10 then intToString(i)[0]
+        else ('A' as Int + i - 10) as Char;
+    }
+
+    fn stringReprOf(i: Int) -> String {
+        return charToString(reprOf(i))
+    }
+
+    fn parse(c: Char) -> Int {
+        val ci = c as Int;
+        if '0' as Int <= ci && ci <= '9' as Int {
+            return ci - ('0' as Int);
+        } else if 'A' as Int <= ci && ci <= 'Z' as Int {
+            return ci - ('A' as Int) + 10;
+        } else {
+            panic "unrecognized character: " + charToString(c);
+        }
+    }
+
+}

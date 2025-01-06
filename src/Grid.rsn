@@ -1,0 +1,22 @@
+
+module Grid(frameR: Region^, cellsR: Region^, cells: arr^{frameR} arr^{frameR} Cell^{cellsR}, package CharsConversion){
+
+    fn toString() -> String {
+        var str = "";
+        for var r = 0; r < #me.cells; r += 1 {
+            val row = me.cells[r];
+            for var c = 0; c < #row; c += 1 {
+                val cell = row[c];
+                str += CharsConversion.stringReprOf(cell.value);
+            };
+            str += "\n";
+        };
+        return str;
+    }
+
+}
+
+mut struct Cell {
+    var value: Int,
+    var candidates: List
+}
