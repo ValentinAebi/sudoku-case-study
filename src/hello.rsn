@@ -1,0 +1,8 @@
+
+package Hello {
+
+    main fn program(arr String){
+        print("Hello, world!");
+    }
+
+}
