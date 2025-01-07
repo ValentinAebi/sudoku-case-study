@@ -19,7 +19,7 @@ package CharsConversion {
         } else if 'A' as Int <= ci && ci <= 'Z' as Int {
             return ci - ('A' as Int) + 10;
         } else {
-            panic "unrecognized character: " + charToString(c);
+            panic "unrecognized character: " + charToString(c) + "(code " + intToString(ci) + ")";
         }
     }
 

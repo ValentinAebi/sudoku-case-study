@@ -4,13 +4,32 @@ package Main {
     main fn solver_main(arr String){
         val frameR = newregion;
         val valuesR = newregion;
-        val rawData: arr^# arr Char;
+        val rawCharsGrid: arr^# arr Char;
         enclosed {fs} {
-            rawData = IntTableReader.readTable("./grids/grid1.txt");
-            // TODO copy grid
+            rawCharsGrid = IntTableReader.readTable("./grids/grid1.txt");
         };
-        val grid = GridMaker.mkGrid(frameR, valuesR, rawData);
+        val cgr = newregion;
+        val charsGrid: arr^{cgr} arr^{cgr} Char;
+        enclosed {} {
+            charsGrid = sanitizeTable(rawCharsGrid, cgr);
+        };
+        val grid = GridMaker.mkGrid(frameR, valuesR, cgr, charsGrid);
         print(grid.toString());
+    }
+
+    fn sanitizeTable(rawTable: arr^# arr Char, r: Region^) -> arr^{r} arr^{r} Char {
+        val res: arr^{r} arr^{r} Char;
+        enclosed {r} {
+            res = arr@r arr^{r} Char[len rawTable];
+            for var i = 0; i < len rawTable; i += 1 {
+                val rawRow = rawTable[i];
+                res[i] = arr@r Char[len rawRow];
+                for var j = 0; j < len rawRow; j += 1 {
+                    res[i][j] = rawRow[j];
+                }
+            };
+        };
+        return res;
     }
 
 }

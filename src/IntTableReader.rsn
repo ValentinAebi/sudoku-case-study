@@ -1,5 +1,7 @@
 #nocap;
 
+const rNewlineCharCode = 13;
+
 package IntTableReader {
 
     fn readTable(path: String) -> arr arr Char {
@@ -7,18 +9,22 @@ package IntTableReader {
         val linesCnt = countLines(s);
         val linesLength = findLinesLength(s);
         val table = arr arr Char[linesCnt];
-        for var i = 0; i < #table; i += 1 {
+        for var i = 0; i < len table; i += 1 {
             table[i] = arr Char[linesLength];
         };
-        for var i = 0; i < #s; i += 1 {
-            table[i / linesLength][i % linesLength] = s[i];
+        for var si = 0, var i = 0; si < len s; si += 1 {
+            val c = s[si];
+            if c != '\n' {
+                table[i / linesLength][i % linesLength] = c;
+                i += 1;
+            }
         };
         return table;
     }
 
     fn countLines(s: String) -> Int {
         var cnt = 1;
-        for var i = 0; i < #s; i += 1 {
+        for var i = 0; i < len s; i += 1 {
             if s[i] == '\n' {
                 cnt += 1;
             }
@@ -29,7 +35,7 @@ package IntTableReader {
     fn findLinesLength(s: String) -> Int {
         var length = -1;
         var currCnt = 0;
-        for var i = 0; i < #s; i += 1 {
+        for var i = 0; i < len s; i += 1 {
             if s[i] == '\n' {
                 if length < 0 {
                     length = currCnt;
@@ -50,13 +56,19 @@ package IntTableReader {
         var stop = false;
         while !stop {
             val c = fs.read(fh);
-            stop = c != -1;
-            if !stop {
+            stop = c == -1;
+            if !stop && c != rNewlineCharCode {
                 result += charToString(c as Char);
             }
         };
         fs.close(fh);
         return result;
+    }
+
+    fn assert(cond: Bool, msg: String){
+        if !cond {
+            panic msg
+        }
     }
 
 }

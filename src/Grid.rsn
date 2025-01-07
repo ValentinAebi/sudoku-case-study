@@ -3,9 +3,9 @@ module Grid(frameR: Region^, cellsR: Region^, cells: arr^{frameR} arr^{frameR} C
 
     fn toString() -> String {
         var str = "";
-        for var r = 0; r < #me.cells; r += 1 {
+        for var r = 0; r < len me.cells; r += 1 {
             val row = me.cells[r];
-            for var c = 0; c < #row; c += 1 {
+            for var c = 0; c < len row; c += 1 {
                 val cell = row[c];
                 str += CharsConversion.stringReprOf(cell.value);
             };
