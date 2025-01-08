@@ -58,7 +58,7 @@ package IntTableReader {
             val c = fs.read(fh);
             stop = c == -1;
             if !stop && c != rNewlineCharCode {
-                result += charToString(c as Char);
+                result += (c as Char) as String;
             }
         };
         fs.close(fh);

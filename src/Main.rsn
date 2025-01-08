@@ -14,7 +14,7 @@ package Main {
             charsGrid = sanitizeTable(rawCharsGrid, cgr);
         };
         val grid = GridMaker.mkGrid(frameR, valuesR, cgr, charsGrid);
-        print(grid.toString());
+        console.print(grid.toString());
     }
 
     fn sanitizeTable(rawTable: arr^# arr Char, r: Region^) -> arr^{r} arr^{r} Char {

@@ -4,12 +4,12 @@ package CharsConversion {
     fn reprOf(i: Int) -> Char {
         return
         when i == 0 then ' '
-        else when 0 < i && i < 10 then intToString(i)[0]
+        else when 0 < i && i < 10 then (i + ('0' as Int)) as Char
         else ('A' as Int + i - 10) as Char;
     }
 
     fn stringReprOf(i: Int) -> String {
-        return charToString(reprOf(i))
+        return reprOf(i) as String
     }
 
     fn parse(c: Char) -> Int {
@@ -19,7 +19,7 @@ package CharsConversion {
         } else if 'A' as Int <= ci && ci <= 'Z' as Int {
             return ci - ('A' as Int) + 10;
         } else {
-            panic "unrecognized character: " + charToString(c) + "(code " + intToString(ci) + ")";
+            panic "unrecognized character: " + c as String + "(code " + ci as String + ")";
         }
     }
 
