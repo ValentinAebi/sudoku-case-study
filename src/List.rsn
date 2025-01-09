@@ -1,5 +1,5 @@
 
-interface List
+datatype List
 
 struct Cons : List {
     head: Int,

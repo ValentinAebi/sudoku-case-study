@@ -1,4 +1,7 @@
 
+const sectorDim: Int = 3;
+const gridDim: Int = 9;
+
 package Main {
 
     main fn solver_main(arr String){
@@ -13,8 +16,13 @@ package Main {
         enclosed {} {
             charsGrid = sanitizeTable(rawCharsGrid, cgr);
         };
+        assert(len charsGrid == gridDim, "wrong grid height");
+        assert(len charsGrid[0] == gridDim, "wrong grid width");
         val grid = GridMaker.mkGrid(frameR, valuesR, cgr, charsGrid);
-        console.print(grid.toString());
+        val tableR = newregion;
+        enclosed {console, tableR} {
+            (new GridFormatter(sectorDim, sectorDim)).format(#grid.toCharsTable(tableR));
+        };
     }
 
     fn sanitizeTable(rawTable: arr^# arr Char, r: Region^) -> arr^{r} arr^{r} Char {
@@ -30,6 +38,12 @@ package Main {
             };
         };
         return res;
+    }
+
+    fn assert(cond: Bool, msg: String){
+        if !cond {
+            panic msg
+        }
     }
 
 }

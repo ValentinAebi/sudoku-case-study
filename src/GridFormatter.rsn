@@ -1,0 +1,48 @@
+#nocap;
+
+module GridFormatter(sectorWidth: Int, sectorHeight: Int){
+
+    fn format(grid: arr arr Char){
+        assert(len grid > 0, "empty grid");
+        for var l = 0; l < len grid; l += 1 {
+            if l % me.sectorHeight == 0 {
+                printSepLine(len grid[l]);
+                p("\n");
+            };
+            printLine(grid[l]);
+            p("\n");
+        };
+        printSepLine(len grid[0]);
+    }
+
+    fn printSepLine(gridWidth: Int){
+        for var c = 0; c < gridWidth; c += 1 {
+            if c % me.sectorWidth == 0 {
+                p("+-");
+            };
+            p("--");
+        };
+        p("+");
+    }
+
+    fn printLine(cs: arr Char){
+        for var c = 0; c < len cs; c += 1 {
+            if c % me.sectorWidth == 0 {
+                p("| ");
+            };
+            p(cs[c] as String + " ");
+        };
+        p("|");
+    }
+
+    fn p(s: String){
+        console.print(s);
+    }
+
+    fn assert(cond: Bool, msg: String){
+        if !cond {
+            panic msg
+        }
+    }
+
+}

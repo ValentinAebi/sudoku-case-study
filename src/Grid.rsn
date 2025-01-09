@@ -14,6 +14,18 @@ module Grid(frameR: Region^, cellsR: Region^, cells: arr^{frameR} arr^{frameR} C
         return str;
     }
 
+    fn toCharsTable(r: Region^) -> arr^{r} arr^{r} Char {
+        val table = arr@r arr^{r} Char[len me.cells];
+        for var l = 0; l < len me.cells; l += 1 {
+            table[l] = arr@r Char[len me.cells[l]];
+            for var c = 0; c < len me.cells[l]; c += 1 {
+                val iValue = me.cells[l][c].value;
+                table[l][c] = when iValue == 0 then ' ' else CharsConversion.reprOf(iValue);
+            }
+        };
+        return table;
+    }
+
 }
 
 mut struct Cell {
