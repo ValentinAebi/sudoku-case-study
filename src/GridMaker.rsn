@@ -8,7 +8,7 @@ package GridMaker {
             cells[r] = arr@frameR Cell^{valuesR}[len rawRow];
             for var c = 0; c < len rawRow; c += 1 {
                 val initVal = CharsConversion.parse(rawRow[c]);
-                cells[r][c] = new@valuesR Cell(initVal, new Nil());
+                cells[r][c] = Cells.mkCell(valuesR, initVal);
             }
         };
         return new Grid(frameR, valuesR, cells);

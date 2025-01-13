@@ -1,5 +1,22 @@
 
+const sectorDim: Int = 3;
+const gridDim: Int = 9;
+
+const emptyCellMarker: Int = 0;
+
 module Grid(frameR: Region^, cellsR: Region^, cells: arr^{frameR} arr^{frameR} Cell^{cellsR}, package CharsConversion){
+
+    fn deepCopy(cfr: Region^, ccr: Region^) -> Grid^{cfr, ccr} {
+        val cells = arr@cfr arr^{cfr} Cell^{ccr}[len me.cells];
+        for var l = 0; l < len cells; l += 1 {
+            cells[l] = arr@cfr Cell^{ccr}[len me.cells[l]];
+            for var c = 0; c < len cells[l]; c += 1 {
+                val origCell = me.cells[l][c];
+                cells[l][c] = Cells.mkCell(ccr, origCell.value);
+            }
+        };
+        return new Grid(cfr, ccr, cells);
+    }
 
     fn toString() -> String {
         var str = "";
@@ -26,9 +43,102 @@ module Grid(frameR: Region^, cellsR: Region^, cells: arr^{frameR} arr^{frameR} C
         return table;
     }
 
-}
+    fn isComplete() -> Bool {
+        for var l = 0; l < gridDim; l += 1 {
+            for var c = 0; c < gridDim; c += 1 {
+                if me.cells[l][c].value == emptyCellMarker {
+                    return false;
+                }
+            }
+        };
+        return true;
+    }
 
-mut struct Cell {
-    var value: Int,
-    var candidates: List
+    fn missingCnt() -> Int {
+        var cnt = 0;
+        for var l = 0; l < gridDim; l += 1 {
+            for var c = 0; c < gridDim; c += 1 {
+                if me.cells[l][c].value == emptyCellMarker {
+                    cnt += 1;
+                }
+            }
+        };
+        return cnt;
+    }
+
+    fn getSectors() -> arr^{me.frameR} Sector^{me.frameR, me.cellsR} {
+        val nRows = gridDim;
+        val nCols = gridDim;
+        val nSquares = (gridDim / sectorDim) * (gridDim / sectorDim);
+        val sectors = arr@me.frameR Sector^{me.frameR, me.cellsR}[nRows + nCols + nSquares];
+        mkRowsSectors(sectors, 0);
+        mkColsSectors(sectors, nRows);
+        mkSquareSectors(sectors, nRows + nCols);
+        return sectors;
+    }
+
+    private fn mkRowsSectors(sectors: arr^ Sector^{me.frameR, me.cellsR}, beginIdx: Int) {
+        for var l = 0; l < gridDim; l += 1 {
+            sectors[beginIdx + l] = new Sector(me.cellsR, me.cells[l]);
+        }
+    }
+
+    private fn mkColsSectors(sectors: arr^ Sector^{me.frameR, me.cellsR}, beginIdx: Int) {
+        for var c = 0; c < gridDim; c += 1 {
+            val col = arr@me.frameR Cell^{me.cellsR}[gridDim];
+            for var l = 0; l < gridDim; l += 1 {
+                col[l] = me.cells[l][c];
+            };
+            sectors[beginIdx + c] = new Sector(me.cellsR, col);
+        }
+    }
+
+    private fn mkSquareSectors(sectors: arr^ Sector^{me.frameR, me.cellsR}, var sectorIdx: Int){
+        val nSectPerSize = gridDim / sectorDim;
+        for var sl = 0; sl < nSectPerSize; sl += 1 {
+            for var sc = 0; sc < nSectPerSize; sc += 1 {
+                val cells = arr@me.frameR Cell^{me.cellsR}[sectorDim*sectorDim];
+                var i = 0;
+                for var deltaL = 0; deltaL < sectorDim; deltaL += 1 {
+                    for var deltaC = 0; deltaC < sectorDim; deltaC += 1 {
+                        cells[i] = me.cells[sl*sectorDim + deltaL][sc*sectorDim + deltaC];
+                        i += 1;
+                    }
+                };
+                sectors[sectorIdx] = new Sector(me.cellsR, cells);
+                sectorIdx += 1;
+            }
+        }
+    }
+
+    // Return true if it could infer the value of a cell
+    // Once this happens, exit immediately
+    fn inferUniqueCandidate() -> Bool {
+        for var l = 0; l < len me.cells; l += 1 {
+            for var c = 0; c < len me.cells[l]; c += 1 {
+                val cell = me.cells[l][c];
+                if cell.value == emptyCellMarker {
+                    val maybeUnique = getUniqueCandidateOpt(cell.candidates);
+                    if maybeUnique is IntSome {
+                        cell.value = maybeUnique.value;
+                        return true;
+                    }
+                }
+            }
+        };
+        return false;
+    }
+
+    private fn getUniqueCandidateOpt(candidates: arr^ Bool) -> IntOption {
+        var unique: IntOption = new None();
+        for var i = 0; i < len candidates; i += 1 {
+            if candidates[i] && unique is None {
+                unique = new IntSome(i + 1);
+            } else if candidates[i] {
+                return new None();
+            }
+        };
+        return unique;
+    }
+
 }

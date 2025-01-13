@@ -1,17 +1,14 @@
 
-const sectorDim: Int = 3;
-const gridDim: Int = 9;
-
 package Main {
 
     main fn solver_main(arr String){
-        val frameR = newregion;
-        val valuesR = newregion;
-        val rawCharsGrid: arr^# arr Char;
+        val frameR = newreg;
+        val valuesR = newreg;
+        val rawCharsGrid: arr^# arr^# Char;
         enclosed {fs} {
             rawCharsGrid = IntTableReader.readTable("./grids/grid1.txt");
         };
-        val cgr = newregion;
+        val cgr = newreg;
         val charsGrid: arr^{cgr} arr^{cgr} Char;
         enclosed {} {
             charsGrid = sanitizeTable(rawCharsGrid, cgr);
@@ -19,13 +16,26 @@ package Main {
         assert(len charsGrid == gridDim, "wrong grid height");
         assert(len charsGrid[0] == gridDim, "wrong grid width");
         val grid = GridMaker.mkGrid(frameR, valuesR, cgr, charsGrid);
-        val tableR = newregion;
-        enclosed {console, tableR} {
-            (new GridFormatter(sectorDim, sectorDim)).format(#grid.toCharsTable(tableR));
+        printFormatted(grid);
+        console.print("\n" + grid.missingCnt() as String + " empty cells\n\n\n");
+        Solver.tryToSolveWithoutBacktracking(grid);
+        printFormatted(grid);
+        console.print("\n" + grid.missingCnt() as String + " empty cells");
+    }
+
+    private fn printFormatted(grid: Grid^){
+        val tableR = newreg;
+        val charsTable = grid.toCharsTable(tableR);
+        enclosed {console} {
+            val tableCopy = #(arr@newreg arr^# Char[len charsTable]);
+            for var i = 0; i < len tableCopy; i += 1 {
+                tableCopy[i] = #charsTable[i];
+            };
+            (new GridFormatter(sectorDim, sectorDim)).format(tableCopy);
         };
     }
 
-    fn sanitizeTable(rawTable: arr^# arr Char, r: Region^) -> arr^{r} arr^{r} Char {
+    private fn sanitizeTable(rawTable: arr^# arr^# Char, r: Region^) -> arr^{r} arr^{r} Char {
         val res: arr^{r} arr^{r} Char;
         enclosed {r} {
             res = arr@r arr^{r} Char[len rawTable];

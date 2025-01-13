@@ -1,0 +1,8 @@
+
+datatype IntOption
+
+struct IntSome : IntOption {
+    value: Int
+}
+
+struct None : IntOption

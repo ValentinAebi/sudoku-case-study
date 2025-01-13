@@ -1,0 +1,31 @@
+
+module Sector(cellsR: Region^, cells: arr^ Cell^{cellsR}){
+
+    fn updateCandidates(){
+        for var i = 0; i < gridDim; i += 1 {
+            val value = me.cells[i].value;
+            if value != emptyCellMarker {
+                unmarkCandidate(value);
+            }
+        };
+    }
+
+    private fn unmarkCandidate(candidate: Int){
+        for var i = 0; i < len me.cells; i += 1 {
+            val cell = me.cells[i];
+            if cell.value == emptyCellMarker {
+                cell.candidates[candidate-1] = false;
+            }
+        }
+    }
+
+    fn toString() -> String {
+        var s = "[\n";
+        for var i = 0; i < len me.cells; i += 1 {
+            s += " " + Cells.toString(me.cells[i]) + "\n";
+        };
+        s += "]";
+        return s;
+    }
+
+}

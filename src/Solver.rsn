@@ -1,0 +1,15 @@
+
+package Solver {
+
+    fn tryToSolveWithoutBacktracking(grid: Grid^) {
+        val sectors = grid.getSectors();
+        var continue = true;
+        while continue {
+            for var i = 0; i < len sectors; i += 1 {
+                sectors[i].updateCandidates();
+            };
+            continue = grid.inferUniqueCandidate();
+        };
+    }
+
+}

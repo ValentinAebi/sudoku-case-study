@@ -9,13 +9,13 @@ module GridFormatter(sectorWidth: Int, sectorHeight: Int){
                 printSepLine(len grid[l]);
                 p("\n");
             };
-            printLine(grid[l]);
+            printRow(grid[l]);
             p("\n");
         };
         printSepLine(len grid[0]);
     }
 
-    fn printSepLine(gridWidth: Int){
+    private fn printSepLine(gridWidth: Int){
         for var c = 0; c < gridWidth; c += 1 {
             if c % me.sectorWidth == 0 {
                 p("+-");
@@ -25,21 +25,21 @@ module GridFormatter(sectorWidth: Int, sectorHeight: Int){
         p("+");
     }
 
-    fn printLine(cs: arr Char){
+    private fn printRow(cs: arr Char){
         for var c = 0; c < len cs; c += 1 {
             if c % me.sectorWidth == 0 {
-                p("| ");
+                p("¦ ");
             };
             p(cs[c] as String + " ");
         };
-        p("|");
+        p("¦");
     }
 
-    fn p(s: String){
+    private fn p(s: String){
         console.print(s);
     }
 
-    fn assert(cond: Bool, msg: String){
+    private fn assert(cond: Bool, msg: String){
         if !cond {
             panic msg
         }

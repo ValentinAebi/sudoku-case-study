@@ -1,9 +1,0 @@
-
-datatype List
-
-struct Cons : List {
-    head: Int,
-    tail: List
-}
-
-struct Nil : List

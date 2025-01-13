@@ -3,7 +3,7 @@ package CharsConversion {
 	
     fn reprOf(i: Int) -> Char {
         return
-        when i == 0 then ' '
+        when i == emptyCellMarker then ' '
         else when 0 < i && i < 10 then (i + ('0' as Int)) as Char
         else ('A' as Int + i - 10) as Char;
     }

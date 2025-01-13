@@ -1,0 +1,39 @@
+
+mut struct Cell {
+    var value: Int,
+    candidates: arr^{reg} Bool
+}
+
+package Cells {
+
+    fn mkCell(reg: Region^, initVal: Int) -> Cell^{reg} {
+        val candidatesCnt = when initVal == emptyCellMarker then gridDim else 0;
+        val candidates = arr@reg Bool[candidatesCnt];
+        for var i = 0; i < candidatesCnt; i += 1 {
+            candidates[i] = true;
+        };
+        return new@reg Cell(initVal, candidates);
+    }
+
+    fn toString(cell: Cell^) -> String {
+        if cell.value == emptyCellMarker {
+            return "?  (" + candidatesOf(cell) + ")";
+        } else {
+            return cell.value as String;
+        }
+    }
+
+    private fn candidatesOf(cell: Cell^) -> String {
+        var s = "";
+        for var i = 0; i < len cell.candidates; i += 1 {
+            if cell.candidates[i] {
+                s += (i + 1) as String;
+                if i < len cell.candidates - 1 {
+                    s += " ";
+                }
+            }
+        };
+        return s;
+    }
+
+}
