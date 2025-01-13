@@ -4,7 +4,7 @@ const gridDim: Int = 9;
 
 const emptyCellMarker: Int = 0;
 
-// TODO use a single region for everything in Grid
+
 module Grid(frameR: Region^, cellsR: Region^, cells: arr^{frameR} arr^{frameR} Cell^{cellsR}, package CharsConversion){
 
     fn deepCopy(cfr: Region^, ccr: Region^) -> Grid^{cfr, ccr} {
