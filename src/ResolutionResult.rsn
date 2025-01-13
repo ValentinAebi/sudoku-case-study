@@ -1,0 +1,8 @@
+
+datatype ResolutionResult
+
+struct ResolutionSuccess : ResolutionResult {
+    maxBacktrackDepth: Int
+}
+
+struct ResolutionFailure : ResolutionResult

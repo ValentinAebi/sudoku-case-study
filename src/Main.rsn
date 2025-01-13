@@ -2,23 +2,42 @@
 package Main {
 
     main fn solver_main(arr String){
-        val frameR = newreg;
-        val valuesR = newreg;
+
+        // use IntTableReader library to read the sudoku grid in the file
         val rawCharsGrid: arr^# arr^# Char;
         enclosed {fs} {
-            rawCharsGrid = IntTableReader.readTable("./grids/grid1.txt");
+            rawCharsGrid = IntTableReader.readTable("./grids/grid2.txt");
         };
+
+        // copy the table produced by the unchecked library into a table that we fully control
         val cgr = newreg;
         val charsGrid: arr^{cgr} arr^{cgr} Char;
         enclosed {} {
             charsGrid = sanitizeTable(rawCharsGrid, cgr);
         };
+
         assert(len charsGrid == gridDim, "wrong grid height");
         assert(len charsGrid[0] == gridDim, "wrong grid width");
+
+        // Create the grid and display its state before solving
+        val frameR = newreg;
+        val valuesR = newreg;
         val grid = GridMaker.mkGrid(frameR, valuesR, cgr, charsGrid);
         printFormatted(grid);
         console.print("\n" + grid.missingCnt() as String + " empty cells\n\n\n");
-        Solver.tryToSolveWithoutBacktracking(grid);
+
+        // Perform resolution. The Solver module is not allowed to use devices.
+        val result: ResolutionResult;
+        restricted {frameR, valuesR} {
+            result = Solver.solve(grid);
+        };
+        if result is ResolutionSuccess {
+            console.print("Resolution succeeded with " + result.maxBacktrackDepth as String + " guessed step(s)\n");
+        } else {
+            console.print("Resolution failed\n");
+        };
+
+        // Display the grid once it has been solved (or at least once the solver inferred all the values that it could)
         printFormatted(grid);
         console.print("\n" + grid.missingCnt() as String + " empty cells");
     }

@@ -17,13 +17,13 @@ package Cells {
 
     fn toString(cell: Cell^) -> String {
         if cell.value == emptyCellMarker {
-            return "?  (" + candidatesOf(cell) + ")";
+            return "?  (" + candidatesOfAsStr(cell) + ")";
         } else {
             return cell.value as String;
         }
     }
 
-    private fn candidatesOf(cell: Cell^) -> String {
+    private fn candidatesOfAsStr(cell: Cell^) -> String {
         var s = "";
         for var i = 0; i < len cell.candidates; i += 1 {
             if cell.candidates[i] {
@@ -34,6 +34,16 @@ package Cells {
             }
         };
         return s;
+    }
+
+    fn countCandidates(cell: Cell^) -> Int {
+        var cnt = 0;
+        for var i = 0; i < len cell.candidates; i += 1 {
+            if cell.candidates[i]{
+                cnt += 1;
+            }
+        };
+        return cnt;
     }
 
 }

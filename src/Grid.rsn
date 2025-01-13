@@ -4,6 +4,7 @@ const gridDim: Int = 9;
 
 const emptyCellMarker: Int = 0;
 
+// TODO use a single region for everything in Grid
 module Grid(frameR: Region^, cellsR: Region^, cells: arr^{frameR} arr^{frameR} Cell^{cellsR}, package CharsConversion){
 
     fn deepCopy(cfr: Region^, ccr: Region^) -> Grid^{cfr, ccr} {
@@ -41,6 +42,62 @@ module Grid(frameR: Region^, cellsR: Region^, cells: arr^{frameR} arr^{frameR} C
             }
         };
         return table;
+    }
+
+    fn copyValuesFrom(src: Grid^){
+        val dst = me;
+        for var l = 0; l < len dst.cells; l += 1 {
+            for var c = 0; c < len dst.cells[l]; c += 1 {
+                val srcCell = src.cells[l][c];
+                val dstCell = dst.cells[l][c];
+                if dstCell.value == emptyCellMarker {
+                    dstCell.value = srcCell.value;
+                } else if srcCell.value != dstCell.value {
+                    panic "trying to copy from an incompatible grid"
+                }
+            }
+        };
+    }
+
+    fn getGuesses(frr: Region^, cr: Region^) -> arr^ Grid^{frr, cr} {
+        val r = newreg;
+        val guessCellIdx = idxOfCellWithLeastCandidates();
+        if guessCellIdx == -1 {
+            return arr@r Grid^{frr, cr}[0];
+        } else {
+            val guessCell = cellAtIdx(guessCellIdx);
+            val candidatesCnt = Cells.countCandidates(guessCell);
+            val guesses = arr@r Grid^{frr, cr}[candidatesCnt];
+            var guessIdx = 0;
+            for var i = 0; i < gridDim; i += 1 {
+                if guessCell.candidates[i] {
+                    val guess = deepCopy(frr, cr);
+                    guess.cellAtIdx(guessCellIdx).value = i + 1;
+                    guesses[guessIdx] = guess;
+                    guessIdx += 1;
+                }
+            };
+            return guesses;
+        }
+    }
+
+    private fn idxOfCellWithLeastCandidates() -> Int {
+        var bestIdx = -1;
+        var bestCandidatesCnt = gridDim + 1;
+        for var i = 0; i < gridDim*gridDim; i += 1 {
+            val candidatesCnt = Cells.countCandidates(cellAtIdx(i));
+            if 0 < candidatesCnt && candidatesCnt < bestCandidatesCnt {
+                bestIdx = i;
+                bestCandidatesCnt = candidatesCnt;
+            }
+        };
+        return bestIdx;
+    }
+
+    private fn cellAtIdx(flatIdx: Int) -> Cell^{me.cellsR} {
+        val l = flatIdx / gridDim;
+        val c = flatIdx % gridDim;
+        return me.cells[l][c];
     }
 
     fn isComplete() -> Bool {

@@ -1,14 +1,33 @@
 
 package Solver {
 
-    fn tryToSolveWithoutBacktracking(grid: Grid^) {
+    fn solve(grid: Grid^) -> ResolutionResult {
+        tryToSolveWithoutBacktracking(grid);
+        if grid.isComplete() {
+            return new ResolutionSuccess(0);
+        } else {
+            val guessR = newreg;
+            val guesses = grid.getGuesses(guessR, guessR);
+            for var i = 0; i < len guesses; i += 1 {
+                val guess = guesses[i];
+                val subResult = solve(guess);
+                if (subResult is ResolutionSuccess){
+                    grid.copyValuesFrom(guess);
+                    return new ResolutionSuccess(subResult.maxBacktrackDepth + 1);
+                }
+            };
+            return new ResolutionFailure();
+        }
+    }
+
+    private fn tryToSolveWithoutBacktracking(grid: Grid^) {
         val sectors = grid.getSectors();
-        var continue = true;
-        while continue {
+        var inferStrategy = true;
+        while inferStrategy {
             for var i = 0; i < len sectors; i += 1 {
                 sectors[i].updateCandidates();
             };
-            continue = grid.inferUniqueCandidate();
+            inferStrategy = grid.inferUniqueCandidate();
         };
     }
 
