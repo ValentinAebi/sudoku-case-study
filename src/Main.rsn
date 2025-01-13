@@ -1,12 +1,22 @@
 
 package Main {
 
-    main fn solver_main(arr String){
+    main fn solver_main(args: arr String){
+
+        // Parse arguments
+        val filename: String;
+        if args[0] == "1" {
+            filename = "./grids/grid1.txt";
+        } else if args[0] == "2" {
+            filename = "./grids/grid2.txt";
+        } else {
+            panic "unrecognized argument";
+        };
 
         // use IntTableReader library to read the sudoku grid in the file
         val rawCharsGrid: arr^# arr^# Char;
         enclosed {fs} {
-            rawCharsGrid = IntTableReader.readTable("./grids/grid2.txt");
+            rawCharsGrid = IntTableReader.readTable(filename);
         };
 
         // copy the table produced by the unchecked library into a table that we fully control
