@@ -74,7 +74,7 @@ package Main {
         return res;
     }
 
-    fn assert(cond: Bool, msg: String){
+    private fn assert(cond: Bool, msg: String){
         if !cond {
             panic msg
         }
