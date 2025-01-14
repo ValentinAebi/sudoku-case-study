@@ -45,11 +45,10 @@ module Grid(frameR: Region^, cellsR: Region^, cells: arr^{frameR} arr^{frameR} C
     }
 
     fn copyValuesFrom(src: Grid^){
-        val dst = me;
-        for var l = 0; l < len dst.cells; l += 1 {
-            for var c = 0; c < len dst.cells[l]; c += 1 {
-                val srcCell = src.cells[l][c];
-                val dstCell = dst.cells[l][c];
+        for var l = 0; l < len me.cells; l += 1 {
+            for var c = 0; c < len me.cells[l]; c += 1 {
+                val srcCell = src.cellAt(l, c);
+                val dstCell = me.cellAt(l, c);
                 if dstCell.value == emptyCellMarker {
                     dstCell.value = srcCell.value;
                 } else if srcCell.value != dstCell.value {
@@ -94,10 +93,14 @@ module Grid(frameR: Region^, cellsR: Region^, cells: arr^{frameR} arr^{frameR} C
         return bestIdx;
     }
 
+    private fn cellAt(l: Int, c: Int)  -> Cell^{me.cellsR} {
+        return me.cells[l][c];
+    }
+
     private fn cellAtIdx(flatIdx: Int) -> Cell^{me.cellsR} {
         val l = flatIdx / gridDim;
         val c = flatIdx % gridDim;
-        return me.cells[l][c];
+        return cellAt(l, c);
     }
 
     fn isComplete() -> Bool {
