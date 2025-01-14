@@ -21,10 +21,7 @@ package Main {
 
         // copy the table produced by the unchecked library into a table that we fully control
         val cgr = newreg;
-        val charsGrid: arr^{cgr} arr^{cgr} Char;
-        enclosed {} {
-            charsGrid = sanitizeTable(rawCharsGrid, cgr);
-        };
+        val charsGrid = sanitizeTable(rawCharsGrid, cgr);
 
         assert(len charsGrid == gridDim, "wrong grid height");
         assert(len charsGrid[0] == gridDim, "wrong grid width");
@@ -36,20 +33,18 @@ package Main {
         printFormatted(grid);
         console.print("\n" + grid.missingCnt() as String + " empty cells\n\n\n");
 
-        // Perform resolution. The Solver module is not allowed to use devices.
+        // Perform resolution. Thanks to the rstricted block, the Solver package is not allowed to use devices.
         val result: ResolutionResult;
         restricted {frameR, valuesR} {
             result = Solver.solve(grid);
         };
         if result is ResolutionSuccess {
             console.print("Resolution succeeded with " + result.maxBacktrackDepth as String + " guessed step(s)\n");
+            printFormatted(grid);
+            console.print("\n" + grid.missingCnt() as String + " empty cells");
         } else {
             console.print("Resolution failed\n");
         };
-
-        // Display the grid once it has been solved (or at least once the solver inferred all the values that it could)
-        printFormatted(grid);
-        console.print("\n" + grid.missingCnt() as String + " empty cells");
     }
 
     private fn printFormatted(grid: Grid^){
