@@ -35,7 +35,7 @@ package Main {
 
         // Perform resolution. Thanks to the rstricted block, the Solver package is not allowed to use devices.
         val result: ResolutionResult;
-        restricted {frameR, valuesR} {
+        restricted {grid} {
             result = Solver.solve(grid);
         };
         if result is ResolutionSuccess {
