@@ -16,7 +16,7 @@ package Main {
         // use IntTableReader library to read the sudoku grid in the file
         val rawCharsGrid: arr^# arr^# Char;
         enclosed {fs} {
-            rawCharsGrid = IntTableReader.readTable(filename);
+            rawCharsGrid = TableReader.readTable(filename);
         };
 
         // copy the table produced by the unchecked library into a table that we fully control

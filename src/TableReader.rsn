@@ -2,7 +2,7 @@
 
 const rNewlineCharCode = 13;
 
-package IntTableReader {
+package TableReader {
 
     fn readTable(path: String) -> arr arr Char {
         val s = readFile(path);
