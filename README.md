@@ -8,6 +8,8 @@ and `GridFormatter`, which can be parametrized to display the grid with separato
 
 The rules of the sudoku game can be found at https://en.wikipedia.org/wiki/Sudoku. This solver only handles the classic 9x9 version of the game.
 
+Note: the behavior of the solver is undefined if the empty grid given to it already violates some rules of the sudoku game (e.g. if it has twice the same digit in the same line).
+
 
 ## Running the program
 
