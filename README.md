@@ -25,8 +25,8 @@ Empty cells maintain a list of candidates, which are eliminated when assigning t
 
 ## Requirements
 
-- Java >= 21, e.g. [22.0.2](https://www.oracle.com/java/technologies/javase/jdk22-archive-downloads.html)
-- Make (optional). Installation instructions: [Ubuntu](https://linuxhint.com/install-make-ubuntu/), [Windows](https://www.technewstoday.com/install-and-use-make-in-windows/).
+- Java >= 21
+- Make (optional)
 
 
 ## References
