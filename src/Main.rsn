@@ -33,7 +33,7 @@ package Main {
         printFormatted(grid);
         console.print("\n" + grid.missingCnt() as String + " empty cells\n\n\n");
 
-        // Perform resolution. Thanks to the rstricted block, the Solver package is not allowed to use devices.
+        // Perform resolution. Thanks to the restricted block, the Solver package is not allowed to use devices.
         val result: ResolutionResult;
         restricted {grid} {
             result = Solver.solve(grid);
