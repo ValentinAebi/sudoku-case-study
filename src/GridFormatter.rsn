@@ -3,7 +3,7 @@
 module GridFormatter(sectorWidth: Int, sectorHeight: Int){
 
     fn format(grid: arr arr Char){
-        assert(len grid > 0, "empty grid");
+        require(len grid > 0, "empty grid");
         for var l = 0; l < len grid; l += 1 {
             if l % me.sectorHeight == 0 {
                 printSepLine(len grid[l]);
@@ -39,7 +39,7 @@ module GridFormatter(sectorWidth: Int, sectorHeight: Int){
         console.print(s);
     }
 
-    private fn assert(cond: Bool, msg: String){
+    private fn require(cond: Bool, msg: String){
         if !cond {
             panic msg
         }
