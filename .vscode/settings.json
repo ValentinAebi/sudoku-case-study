@@ -1,0 +1,51 @@
+// uses the Highlight VS Code extension (https://github.com/fabiospampinato/vscode-highlight)
+
+{
+    "highlight.regexes": {
+        "(//)(.*)": [
+            {"color": "#808080"},
+            {"color": "#808080"}
+        ],
+        "(\"[^\"]*\")": [
+            {"color": "#DEB887"}
+        ],
+        "(\\'[^\\']*\\')": [
+            {"color": "#DEB887"}
+        ],
+        "(\\blen\\b)": [{"color": "#87CEFA"}],
+        "(\\barr\\b)": [{"color": "#87CEFA"}],
+        "(\\bas\\b)": [{"color": "#87CEFA"}],
+        "(\\bcap\\b)": [{"color": "#87CEFA"}],
+        "(\\bconsole\\b)": [{"color": "#87CEFA"}],
+        "(\\bconst\\b)": [{"color": "#87CEFA"}],
+        "(\\bdatatype\\b)": [{"color": "#87CEFA"}],
+        "(\\bdevice\\b)": [{"color": "#87CEFA"}],
+        "(\\belse\\b)": [{"color": "#87CEFA"}],
+        "(\\benclosed\\b)": [{"color": "#87CEFA"}],
+        "(\\bfn\\b)": [{"color": "#87CEFA"}],
+        "(\\bfor\\b)": [{"color": "#87CEFA"}],
+        "(\\bfs\\b)": [{"color": "#87CEFA"}],
+        "(\\bif\\b)": [{"color": "#87CEFA"}],
+        "(\\bis\\b)": [{"color": "#87CEFA"}],
+        "(\\bmain\\b)": [{"color": "#87CEFA"}],
+        "(\\bme\\b)": [{"color": "#87CEFA"}],
+        "(\\bmodule\\b)": [{"color": "#87CEFA"}],
+        "(\\bmut\\b)": [{"color": "#87CEFA"}],
+        "(\\bnew\\b)": [{"color": "#87CEFA"}],
+        "(\\bnewreg\\b)": [{"color": "#87CEFA"}],
+        "(\\bnocap\\b)": [{"color": "#87CEFA"}],
+        "(\\bpackage\\b)": [{"color": "#87CEFA"}],
+        "(\\bpanic\\b)": [{"color": "#87CEFA"}],
+        "(\\bprivate\\b)": [{"color": "#87CEFA"}],
+        "(\\brestricted\\b)": [{"color": "#87CEFA"}],
+        "(\\breturn\\b)": [{"color": "#87CEFA"}],
+        "(\\bstruct\\b)": [{"color": "#87CEFA"}],
+        "(\\bthen\\b)": [{"color": "#87CEFA"}],
+        "(\\bval\\b)": [{"color": "#87CEFA"}],
+        "(\\bvar\\b)": [{"color": "#87CEFA"}],
+        "(\\bwhen\\b)": [{"color": "#87CEFA"}],
+        "(\\bwhile\\b)": [{"color": "#87CEFA"}],
+    },
+    "highlight.regexFlags": "g",
+    "files.autoSave": "onFocusChange"
+}
