@@ -13,7 +13,7 @@ package Main {
             panic "unrecognized argument";
         };
 
-        // use IntTableReader library to read the sudoku grid in the file
+        // use TableReader library to read the sudoku grid in the file
         val rawCharsGrid: arr^# arr^# Char;
         enclosed {fs} {
             rawCharsGrid = TableReader.readTable(filename);

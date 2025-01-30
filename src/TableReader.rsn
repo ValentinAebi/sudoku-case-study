@@ -22,7 +22,7 @@ package TableReader {
         return table;
     }
 
-    fn countLines(s: String) -> Int {
+    private fn countLines(s: String) -> Int {
         var cnt = 1;
         for var i = 0; i < len s; i += 1 {
             if s[i] == '\n' {
@@ -32,7 +32,7 @@ package TableReader {
         return cnt;
     }
 
-    fn findLinesLength(s: String) -> Int {
+    private fn findLinesLength(s: String) -> Int {
         var length = -1;
         var currCnt = 0;
         for var i = 0; i < len s; i += 1 {
@@ -50,7 +50,7 @@ package TableReader {
         return length;
     }
 
-    fn readFile(path: String) -> String {
+    private fn readFile(path: String) -> String {
         val fh = fs.openR(path);
         var result = "";
         var stop = false;
@@ -65,7 +65,7 @@ package TableReader {
         return result;
     }
 
-    fn assert(cond: Bool, msg: String){
+    private fn assert(cond: Bool, msg: String){
         if !cond {
             panic msg
         }
