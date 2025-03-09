@@ -11,7 +11,7 @@ package Solver {
             for var i = 0; i < len guesses; i += 1 {
                 val guess = guesses[i];
                 val subResult = solve(guess);
-                if (subResult is ResolutionSuccess){
+                if subResult is ResolutionSuccess {
                     grid.copyValuesFrom(guess);
                     return new ResolutionSuccess(subResult.maxBacktrackDepth + 1);
                 }
